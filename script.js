@@ -21,12 +21,12 @@
   ];
 
   var FOTOS = [
-    'fotos/foto-1.jpg',
-    'fotos/foto-2.jpg',
-    'fotos/foto-3.jpg',
-    'fotos/foto-4.jpg',
-    'fotos/foto-5.jpg',
-    'fotos/foto-6.jpg'
+    'fotos/1.jpeg',
+    'fotos/2.jpeg',
+    'fotos/3.jpeg',
+    'fotos/4.jpeg',
+    'fotos/5.jpeg',
+    'fotos/6.jpeg'
   ];
 
   function aniosDesde(fecha) {
