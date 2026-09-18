@@ -445,32 +445,22 @@ canvas#lluvia{
 }
 
 .galeria-grid{
-  max-width:1180px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+  max-width:860px;
   margin:0 auto;
-  columns:3;
-  column-gap:22px;
 }
 
 .galeria-item{
   position:relative;
-  display:inline-block;
-  width:100%;
-  margin:0 0 26px;
-  break-inside:avoid;
   cursor:pointer;
   padding:10px 10px 34px;
   background:#f5eee7;
   border-radius:4px;
   box-shadow:0 16px 30px rgba(0,0,0,.45);
-  transition:transform .45s cubic-bezier(.22,.61,.36,1),rotate .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease;
+  transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease;
 }
-
-.galeria-item:nth-child(1){rotate:-2.2deg;}
-.galeria-item:nth-child(2){rotate:1.6deg;}
-.galeria-item:nth-child(3){rotate:-1.4deg;}
-.galeria-item:nth-child(4){rotate:2.4deg;}
-.galeria-item:nth-child(5){rotate:-2deg;}
-.galeria-item:nth-child(6){rotate:1.8deg;}
 
 .galeria-item::before{
   content:"";
@@ -494,17 +484,13 @@ canvas#lluvia{
   border-radius:2px;
   transition:transform .7s cubic-bezier(.22,.61,.36,1);
 }
-.galeria-item:nth-child(2) img{aspect-ratio:5 / 4;}
-.galeria-item:nth-child(4) img{aspect-ratio:1 / 1;}
-.galeria-item:nth-child(6) img{aspect-ratio:3 / 4;}
 
 .galeria-item:hover,
 .galeria-item:focus-visible{
-  rotate:0deg;
-  transform:translateY(-10px) scale(1.03);
+  transform:translateY(-8px) scale(1.02);
   box-shadow:0 26px 50px rgba(0,0,0,.55);
 }
-.galeria-item:hover img{transform:scale(1.06);}
+.galeria-item:hover img{transform:scale(1.05);}
 
 .placeholder-img{
   width:100%;
@@ -600,12 +586,11 @@ canvas#lluvia{
 /* ---------- Responsive ---------- */
 @media (hover:none){
   .razon-card:hover{transform:none;}
-  .galeria-item:hover{transform:none;rotate:none;}
+  .galeria-item:hover{transform:none;}
 }
 
 @media (min-width:768px) and (max-width:1023px){
-  .galeria-grid{columns:2;column-gap:16px;}
-  .galeria-item{margin-bottom:22px;}
+  .galeria-grid{max-width:640px;gap:18px;}
 }
 
 @media (max-width:767px){
@@ -615,8 +600,8 @@ canvas#lluvia{
   .razon-num{font-size:2.4rem;}
   .razon-texto{font-size:.92rem;}
   .galeria-section{padding:72px 18px 70px;}
-  .galeria-grid{columns:2;column-gap:14px;}
-  .galeria-item{margin-bottom:20px;}
+  .galeria-grid{gap:14px;}
+  .galeria-item{padding:7px 7px 24px;}
   .btn-musica{right:14px;bottom:14px;width:54px;height:54px;}
   .carta{padding:44px 24px 34px;}
   .hero-title{margin-bottom:14px;}
@@ -624,5 +609,4 @@ canvas#lluvia{
 
 @media (max-width:419px){
   .razones-grid{grid-template-columns:1fr;}
-  .galeria-grid{columns:1;}
 }
