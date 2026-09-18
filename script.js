@@ -21,12 +21,12 @@
   ];
 
   var FOTOS = [
-    { src: 'fotos/foto-1.jpg', cap: 'Mi tío' },
-    { src: 'fotos/foto-2.jpg', cap: 'Mi tía' },
-    { src: 'fotos/foto-3.jpg', cap: 'En la playa' },
-    { src: 'fotos/foto-4.jpg', cap: 'En la plaza' },
-    { src: 'fotos/foto-5.jpg', cap: 'Nuestra familia' },
-    { src: 'fotos/foto-6.jpg', cap: 'En el teleférico' }
+    'fotos/foto-1.jpg',
+    'fotos/foto-2.jpg',
+    'fotos/foto-3.jpg',
+    'fotos/foto-4.jpg',
+    'fotos/foto-5.jpg',
+    'fotos/foto-6.jpg'
   ];
 
   function aniosDesde(fecha) {
@@ -56,36 +56,32 @@
     var grid = document.getElementById('galeriaGrid');
     if (!grid) return;
     grid.innerHTML = '';
-    FOTOS.forEach(function (foto, i) {
+    FOTOS.forEach(function (src, i) {
       var item = document.createElement('figure');
       item.className = 'galeria-item reveal';
       item.style.transitionDelay = (i % 3) * 0.1 + 's';
       item.tabIndex = 0;
       item.setAttribute('role', 'button');
-      item.setAttribute('aria-label', 'Ver foto: ' + foto.cap);
+      item.setAttribute('aria-label', 'Ver foto ' + (i + 1));
       var img = document.createElement('img');
       img.loading = 'lazy';
-      img.alt = foto.cap;
-      img.src = foto.src;
+      img.alt = 'Recuerdo ' + (i + 1);
+      img.src = src;
       img.addEventListener('error', function () {
         img.style.display = 'none';
         var ph = document.createElement('div');
         ph.className = 'placeholder-img';
-        ph.innerHTML = '<span class="corazon">♥</span><span>' + foto.cap + '</span>';
+        ph.innerHTML = '<span class="corazon">♥</span>';
         item.appendChild(ph);
       });
-      var cap = document.createElement('figcaption');
-      cap.className = 'galeria-cap';
-      cap.textContent = foto.cap;
       item.appendChild(img);
-      item.appendChild(cap);
       item.addEventListener('click', function () {
-        abrirLightbox(img, foto.cap);
+        abrirLightbox(img);
       });
       item.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          abrirLightbox(img, foto.cap);
+          abrirLightbox(img);
         }
       });
       grid.appendChild(item);
@@ -152,13 +148,11 @@
 
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lbImg');
-  var lbCap = document.getElementById('lbCap');
   var lbClose = document.getElementById('lbClose');
 
-  function abrirLightbox(img, cap) {
+  function abrirLightbox(img) {
     if (!lb || !lbImg) return;
     lbImg.src = img.src;
-    if (lbCap) lbCap.textContent = cap;
     lb.classList.add('abierto');
     document.body.style.overflow = 'hidden';
   }
