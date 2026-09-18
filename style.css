@@ -264,18 +264,25 @@ canvas#lluvia{
 
 .sello{
   position:absolute;
-  top:-22px;left:50%;
-  transform:translateX(-50%);
-  width:46px;height:46px;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,var(--vino-suave),#36091f 70%);
-  border:2px solid rgba(217,185,138,.6);
-  color:var(--rosa);
-  font-size:1.15rem;
+  top:-22px;
+  left:50%;
+  transform:translate(-50%,0);
+  z-index:3;
+  width:46px;
+  height:46px;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.4);
+  border-radius:50%;
+  color:var(--rosa);
+  background:radial-gradient(circle at 35% 30%,#8a2450,#36091f 72%);
+  border:2px solid rgba(217,185,138,.6);
+  box-shadow:0 6px 18px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.sello svg{
+  display:block;
+  width:20px;
+  height:20px;
   animation:latido 3s ease-in-out infinite;
 }
 
