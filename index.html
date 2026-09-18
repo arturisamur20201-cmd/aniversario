@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Aniversario - 14 años de amor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="lluvia" aria-hidden="true"></canvas>
+
+<header class="hero">
+  <div class="hero-sombra"></div>
+  <p class="hero-badge reveal" id="heroBadge">Nuestro amor cumple 14 años</p>
+  <h1 class="hero-title reveal">¡Feliz Aniversario!</h1>
+  <p class="hero-sub reveal" id="heroSub">Catorce años caminando de tu mano, escribiendo nuestra historia.</p>
+  <div class="separador reveal"><span class="sephr"></span><span class="corazon">♥</span><span class="sephr"></span></div>
+  <div class="scroll-hint reveal">
+    <span class="scroll-line"></span>
+    <span class="scroll-text">baja para leer tu carta</span>
+  </div>
+</header>
+
+<audio id="audio" loop preload="auto" src="musica/fondo.mp3"></audio>
+<button id="btnMusica" class="btn-musica" aria-label="Reproducir o pausar música">
+  <svg id="iconoNota" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+    <path d="M9 3v10.55A4 4 0 1 0 11 17V7h6v4.55A4 4 0 1 0 19 15V3H9z"/>
+  </svg>
+  <span class="eq" id="eq" aria-hidden="true">
+    <i></i><i></i><i></i><i></i>
+  </span>
+</button>
+
+<section class="section carta-section">
+  <div class="carta-marco reveal">
+    <div class="envelope-deco">
+      <span class="envelope-corner tl"></span>
+      <span class="envelope-corner tr"></span>
+      <span class="envelope-corner bl"></span>
+      <span class="envelope-corner br"></span>
+      <span class="sello">♥</span>
+    </div>
+    <div class="carta" id="carta">
+      <p class="carta-saludo">Mi amor:</p>
+      <p class="carta-texto">
+        Hoy no es un día cualquiera. Hoy celebramos <strong>14 años</strong> de elegirnos todos los días,
+        de construir un hogar, una familia, una vida entera juntos. Entre risas, abrazos, lágrimas y
+        sueños cumplidos, tu mano ha sido la que nunca me ha soltado, y mi corazón sigue eligiéndote
+        desde el primer día en que te miró.
+      </p>
+      <p class="carta-texto">
+        Gracias por ser mi compañero, mi cómplice, mi refugio. Gracias por cada detalle, por cada
+        madrugada, por cada "todo va a estar bien" dicho con el alma. Contigo el tiempo no pasa:
+        se queda, y se queda bonito.
+      </p>
+      <p class="carta-transicion">
+        <span class="transicion-linea"></span>
+        14 años de matrimonio,<br>
+        <em>14 razones por las que te sigo amando</em>
+        <span class="transicion-linea"></span>
+      </p>
+      <p class="carta-firma">Con todo mi amor,<br><span class="firma">Tu esposa.</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="section razones-section" id="razones">
+  <div class="section-head reveal">
+    <p class="section-eyebrow">Contando motivos</p>
+    <h2 class="section-title">14 Razones para amarte</h2>
+    <p class="section-sub">Cada año que pasa, una razón más para quedarme a tu lado.</p>
+  </div>
+  <div class="razones-grid" id="razonesGrid"></div>
+</section>
+
+<section class="section galeria-section" id="galeria">
+  <div class="section-head reveal">
+    <p class="section-eyebrow">Nuestros recuerdos</p>
+    <h2 class="section-title">Galería de momentos</h2>
+    <p class="section-sub">Cada foto guarda un pedacito de nuestra historia. Toca para verla más de cerca.</p>
+  </div>
+  <div class="galeria-grid" id="galeriaGrid"></div>
+</section>
+
+<footer class="cierre">
+  <div class="cierre-decowe"></div>
+  <p class="reveal">Gracias por estos 14 años de amor infinito.</p>
+  <p class="cierre-grande reveal">Te amo, hoy y siempre.</p>
+  <p class="cierre-corazones reveal">♥&nbsp;&nbsp;♥&nbsp;&nbsp;♥</p>
+  <p class="cierre-final reveal">Para ti, con todo mi corazón.</p>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">×</button>
+  <img id="lbImg" alt="Foto ampliada">
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
