@@ -206,19 +206,24 @@ canvas#lluvia{
 
 .aviso-audio{
   display:none;
-  margin-top:10px;
-  background:rgba(43,10,51,.85);
-  border:1px solid rgba(217,185,138,.5);
-  color:var(--rosa);
-  padding:9px 20px;
+  position:fixed;
+  left:14px;
+  bottom:14px;
+  z-index:48;
+  max-width:78vw;
+  background:rgba(43,10,51,.78);
+  border:1px solid rgba(217,185,138,.35);
+  color:var(--rosa-suave);
+  padding:7px 14px;
   border-radius:100px;
   font-family:var(--fuente-titulo);
-  font-size:.82rem;
+  font-size:.7rem;
   letter-spacing:.04em;
-  pointer-events:none;
   text-align:center;
+  pointer-events:none;
+  backdrop-filter:blur(3px);
 }
-.aviso-audio.visible{display:inline-block;animation:latido 2s ease-in-out infinite;}
+.aviso-audio.visible{display:inline-block;}
 
 /* ---------- Secciones ---------- */
 .section{
