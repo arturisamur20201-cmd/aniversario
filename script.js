@@ -119,7 +119,10 @@
 
   var audio = document.getElementById('audio');
   var btn = document.getElementById('btnMusica');
+  var aviso = document.getElementById('avisoAudio');
   var AUDIO_INICIO = 12;
+  var arrancado = false;
+  var pausaManual = false;
 
   function marcarReproduciendo() {
     if (!btn) return;
@@ -133,11 +136,19 @@
     btn.classList.remove('playing');
   }
 
+  function mostrarAviso(mostrar) {
+    if (aviso) aviso.classList.toggle('visible', mostrar);
+  }
+
   if (audio) {
     audio.addEventListener('loadedmetadata', function () {
       if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
     });
-    audio.addEventListener('play', marcarReproduciendo);
+    audio.addEventListener('play', function () {
+      arrancado = true;
+      marcarReproduciendo();
+      mostrarAviso(false);
+    });
     audio.addEventListener('pause', marcarPausado);
   }
   marcarPausado();
@@ -145,12 +156,31 @@
   btn.addEventListener('click', function () {
     if (!audio) return;
     if (audio.paused) {
+      pausaManual = false;
       if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
       audio.play().catch(function () {});
     } else {
+      pausaManual = true;
       audio.pause();
     }
   });
+
+  function arrancarConGesto() {
+    if (!audio || arrancado || pausaManual) return;
+    if (audio.paused) {
+      if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
+      var promesa = audio.play();
+      if (promesa && promesa.catch) promesa.catch(function () {});
+    }
+  }
+
+  function reservarAutoplay() {
+    mostrarAviso(true);
+    var eventos = ['pointerdown', 'touchstart', 'mousedown', 'touchend', 'click', 'keydown'];
+    for (var i = 0; i < eventos.length; i++) {
+      window.addEventListener(eventos[i], arrancarConGesto, { passive: true });
+    }
+  }
 
   function intentarAutoplay() {
     if (!audio) return;
@@ -158,21 +188,14 @@
       audio.currentTime = AUDIO_INICIO;
     }
     var promesa = audio.play();
+    if (promesa && promesa.then) {
+      promesa.then(function () {
+        arrancado = true;
+        marcarReproduciendo();
+        mostrarAviso(false);
+      });
+    }
     if (promesa && promesa.catch) promesa.catch(reservarAutoplay);
-  }
-
-  function arrancarFallback() {
-    if (audio && audio.paused) {
-      if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
-      audio.play().catch(function () {});
-    }
-  }
-
-  function reservarAutoplay() {
-    var eventos = ['pointerdown', 'touchstart', 'mousedown', 'touchend', 'keydown'];
-    for (var i = 0; i < eventos.length; i++) {
-      window.addEventListener(eventos[i], arrancarFallback, { once: true, passive: true });
-    }
   }
 
   window.addEventListener('load', intentarAutoplay);
