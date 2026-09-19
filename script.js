@@ -120,9 +120,18 @@
   var audio = document.getElementById('audio');
   var btn = document.getElementById('btnMusica');
   var tocando = false;
+  var AUDIO_INICIO = 12;
+  var autoplayPendiente = true;
+
+  if (audio) {
+    audio.addEventListener('loadedmetadata', function () {
+      if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
+    });
+  }
 
   function activarMusica() {
     if (!audio || !btn) return;
+    if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
     btn.classList.add('playing');
     btn.classList.remove('paused');
     audio.play().catch(function () {});
@@ -145,6 +154,43 @@
       activarMusica();
     }
   });
+
+  function arrancarPorInteraccion() {
+    if (!autoplayPendiente) return;
+    autoplayPendiente = false;
+    tocando = true;
+    activarMusica();
+  }
+
+  function reservarAutoplay() {
+    var eventos = ['click', 'touchstart', 'keydown', 'scroll'];
+    for (var i = 0; i < eventos.length; i++) {
+      window.addEventListener(eventos[i], arrancarPorInteraccion, { once: true, passive: true });
+    }
+  }
+
+  function intentarAutoplay() {
+    if (!audio) return;
+    if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
+    tocando = true;
+    var promesa = audio.play();
+    if (promesa && promesa.then) {
+      promesa.then(function () {
+        autoplayPendiente = false;
+        btn.classList.add('playing');
+        btn.classList.remove('paused');
+      });
+    }
+    if (promesa && promesa.catch) {
+      promesa.catch(function () {
+        tocando = false;
+        autoplayPendiente = true;
+        reservarAutoplay();
+      });
+    }
+  }
+
+  window.addEventListener('load', intentarAutoplay);
 
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lbImg');
