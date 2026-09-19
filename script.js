@@ -119,74 +119,59 @@
 
   var audio = document.getElementById('audio');
   var btn = document.getElementById('btnMusica');
-  var tocando = false;
   var AUDIO_INICIO = 12;
-  var autoplayPendiente = true;
+
+  function marcarReproduciendo() {
+    if (!btn) return;
+    btn.classList.add('playing');
+    btn.classList.remove('paused');
+  }
+
+  function marcarPausado() {
+    if (!btn) return;
+    btn.classList.add('paused');
+    btn.classList.remove('playing');
+  }
 
   if (audio) {
     audio.addEventListener('loadedmetadata', function () {
       if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
     });
+    audio.addEventListener('play', marcarReproduciendo);
+    audio.addEventListener('pause', marcarPausado);
   }
+  marcarPausado();
 
-  function activarMusica() {
-    if (!audio || !btn) return;
-    if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
-    btn.classList.add('playing');
-    btn.classList.remove('paused');
-    audio.play().catch(function () {});
-  }
-
-  function pausarMusica() {
-    if (!audio || !btn) return;
-    btn.classList.add('paused');
-    btn.classList.remove('playing');
-    audio.pause();
-  }
-
-  btn.classList.add('paused');
   btn.addEventListener('click', function () {
-    if (tocando) {
-      tocando = false;
-      pausarMusica();
+    if (!audio) return;
+    if (audio.paused) {
+      if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
+      audio.play().catch(function () {});
     } else {
-      tocando = true;
-      activarMusica();
+      audio.pause();
     }
   });
 
-  function arrancarPorInteraccion() {
-    if (!autoplayPendiente) return;
-    autoplayPendiente = false;
-    tocando = true;
-    activarMusica();
+  function intentarAutoplay() {
+    if (!audio) return;
+    if (audio.readyState >= 1 && audio.currentTime === 0) {
+      audio.currentTime = AUDIO_INICIO;
+    }
+    var promesa = audio.play();
+    if (promesa && promesa.catch) promesa.catch(reservarAutoplay);
+  }
+
+  function arrancarFallback() {
+    if (audio && audio.paused) {
+      if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
+      audio.play().catch(function () {});
+    }
   }
 
   function reservarAutoplay() {
-    var eventos = ['click', 'touchstart', 'keydown', 'scroll'];
+    var eventos = ['pointerdown', 'touchstart', 'mousedown', 'touchend', 'keydown'];
     for (var i = 0; i < eventos.length; i++) {
-      window.addEventListener(eventos[i], arrancarPorInteraccion, { once: true, passive: true });
-    }
-  }
-
-  function intentarAutoplay() {
-    if (!audio) return;
-    if (audio.currentTime === 0) audio.currentTime = AUDIO_INICIO;
-    tocando = true;
-    var promesa = audio.play();
-    if (promesa && promesa.then) {
-      promesa.then(function () {
-        autoplayPendiente = false;
-        btn.classList.add('playing');
-        btn.classList.remove('paused');
-      });
-    }
-    if (promesa && promesa.catch) {
-      promesa.catch(function () {
-        tocando = false;
-        autoplayPendiente = true;
-        reservarAutoplay();
-      });
+      window.addEventListener(eventos[i], arrancarFallback, { once: true, passive: true });
     }
   }
 
